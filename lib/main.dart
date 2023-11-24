@@ -60,7 +60,7 @@ class _QuizPageState extends State<QuizPage> {
 
     if (scoreKeeper.length >= 10) {
       Timer(Duration(seconds: 3), () {
-        setState(() {
+        setState(() {km
           scoreKeeper.clear();
         });
       });
