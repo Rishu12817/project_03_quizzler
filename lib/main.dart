@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(Quizzler());
@@ -25,6 +27,46 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
+  List<bool> userAnswers = [];
+  // var count = 0;
+
+  updateScoreKeeper(bool a) {
+    //
+    userAnswers.add(a);
+    //
+    print("1st check : ${scoreKeeper.length}");
+    if (a) {
+      setState(() {
+        scoreKeeper.add(
+          Icon(
+            Icons.check,
+            color: Colors.green,
+          ),
+        );
+      });
+    } else {
+      setState(() {
+        scoreKeeper.add(
+          Icon(
+            Icons.close,
+            color: Colors.red,
+          ),
+        );
+      });
+    }
+    print("2nd check : ${scoreKeeper.length}");
+    print("ans: $userAnswers");
+
+    if (scoreKeeper.length >= 10) {
+      Timer(Duration(seconds: 3), () {
+        setState(() {
+          scoreKeeper.clear();
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,6 +103,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 // The user picked true.
+                updateScoreKeeper(true);
               },
             ),
           ),
@@ -79,11 +122,18 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 // The user picked false.
+                updateScoreKeeper(false);
               },
             ),
           ),
         ),
         //TODO: Add a Row here as your score keeper
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: scoreKeeper),
+        )
       ],
     );
   }
